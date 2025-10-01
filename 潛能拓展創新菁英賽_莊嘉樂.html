@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能盆栽管家 - 詳細設計研究報告</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --accent-color: #8bc34a;
+            --light-color: #e8f5e9;
+            --dark-color: #1b5e20;
+            --text-color: #333;
+            --light-text: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft JhengHei', '微軟正黑體', Arial, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-text);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background-color: var(--dark-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav li {
+            margin: 0;
+        }
+        
+        nav a {
+            color: var(--light-text);
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: var(--primary-color);
+        }
+        
+        section {
+            padding: 3rem 0;
+            background-color: white;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        section:nth-child(even) {
+            background-color: var(--light-color);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            flex: 1 1 300px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .system-architecture {
+            background-color: #f0f8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .architecture-item {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .architecture-item:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.4;
+            tab-size: 4;
+        }
+        
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+        
+        .highlight {
+            background-color: #ffffcc;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 2rem 0;
+        }
+        
+        .gallery-item {
+            background-color: #e0e0e0;
+            height: 200px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: var(--light-text);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav a {
+                padding: 0.8rem 1rem;
+                text-align: center;
+            }
+            
+            .card {
+                flex: 1 1 100%;
+            }
+        }
+        
+        /* PDF 打印样式 */
+        @media print {
+            nav {
+                display: none;
+            }
+            
+            .btn {
+                display: none;
+            }
+            
+            .card:hover {
+                transform: none;
+            }
+            
+            body {
+                background-color: white;
+            }
+            
+            section {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            
+            h2 {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>一體式智能盆栽管家</h1>
+            <p class="subtitle">創新 · 邁進 · 體驗 · 科學研究</p>
+            <p class="subtitle">基於Arduino的智能種植系統 - 詳細設計研究報告</p>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#intro">作品簡介</a></li>
+            <li><a href="#observation">生活觀察與設計原意</a></li>
+            <li><a href="#design">詳細設計</a></li>
+            <li><a href="#innovation">創新性分析</a></li>
+            <li><a href="#science">科學性分析</a></li>
+            <li><a href="#practicality">實用性分析</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section id="intro">
+            <h2>作品簡介</h2>
+            <p><span class="highlight">「一體式智能盆栽管家」</span>是一個以Arduino微控制器為核心的智能種植系統。它通過土壤濕度、溫度和光照傳感器實時監測植物生長環境，並依據科學設定的閾值，自動啟動水泵進行精準澆水。</p>
+            <p>更重要的是，系統將複雜的數據轉化為直觀的<span class="highlight">「健康值」、「口渴度」</span>等遊戲化指標，通過LCD屏幕或簡單的網頁界面反饋給用戶，實現了從"環境感知"到"自動執行"再到"人性化交互"的完整閉環。</p>
+            
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">創新性</div>
+                    <div class="card-body">
+                        <p>首創"監測-執行-遊戲化指引"三位一體的設計理念，專門服務於種植新手。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">科學性</div>
+                    <div class="card-body">
+                        <p>基於傳感器物理原理和閉環反饋控制理論，決策依賴實時客觀的環境數據。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">實用性</div>
+                    <div class="card-body">
+                        <p>低成本、易用性強，切實解決"養不活植物"的痛點，適用於多種場景。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="observation">
+            <h2>生活觀察與設計原意</h2>
+            
+            <h3>生活觀察</h3>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">「植物殺手」的困境</div>
+                    <div class="card-body">
+                        <p>在快節奏的都市生活中，許多人（尤其是學生、上班族）雖喜愛植物，卻因忙碌或缺乏經驗，常常忘記澆水、或不了解植物習性而導致植物枯萎。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">科技與生活的脫節</div>
+                    <div class="card-body">
+                        <p>現有的智能園藝設備要么過於複雜昂貴，要么功能單一（如僅有定時澆水），無法理解植物的真實需求，也無法與用戶進行有效溝通。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">自然體驗的缺失</div>
+                    <div class="card-body">
+                        <p>我們希望透過一個簡單的科技產品，重新建立人與自然的連結，讓種植變得輕鬆、有趣且有成就感。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>設計原意</h3>
+            <p>我們的初衷不是創造一個冷冰冰的機器，而是一位貼心的「植物管家」。它能代替我們：</p>
+            <ul>
+                <li><span class="highlight">「看見」</span>植物的乾渴</li>
+                <li><span class="highlight">「感受」</span>環境的變化</li>
+                <li>在需要時<span class="highlight">「行動」</span>起來</li>
+                <li>用我們聽得懂的語言<span class="highlight">「匯報」</span>植物的狀態</li>
+            </ul>
+            <p>我們希望通過最普及的計算機科學知識，解決普遍的生活痛點，讓科技成為承載關懷、培養責任感的橋樑。</p>
+        </section>
+        
+        <section id="design">
+            <h2>詳細設計與科學原理</h2>
+            
+            <h3>系統架構</h3>
+            <div class="system-architecture">
+                <div class="architecture-item"><strong>傳感器層</strong> - 土壤濕度、溫度、光照傳感器</div>
+                <div class="architecture-item"><strong>控制決策層</strong> - Arduino主板及程序</div>
+                <div class="architecture-item"><strong>執行器層</strong> - 繼電器、水泵</div>
+                <div class="architecture-item"><strong>人機交互層</strong> - LCD屏幕/網頁界面</div>
+            </div>
+            
+            <h3>硬件設計與科學性</h3>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">感知模塊</div>
+                    <div class="card-body">
+                        <p><strong>土壤濕度傳感器：</strong>利用土壤的電導率原理，通過探針測量電阻值，間接獲得土壤的體積含水量。</p>
+                        <p><strong>溫濕度傳感器(DHT11)：</strong>採用熱敏電阻和濕敏電容測量環境溫濕度。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">控制模塊</div>
+                    <div class="card-body">
+                        <p><strong>Arduino Uno：</strong>作為系統的"大腦"，負責運行預設的程序邏輯，處理所有傳感器數據並下達控制指令。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">執行模塊</div>
+                    <div class="card-body">
+                        <p><strong>繼電器模塊：</strong>利用電磁效應，實現用Arduino輸出的低電壓信號控制水泵所需的高電壓電路。</p>
+                        <p><strong>微型水泵：</strong>根據指令完成灌溉動作。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>軟件邏輯與創新性</h3>
+            <p><strong>核心控制算法 (防過度灌溉機制)：</strong></p>
+            <div class="code-block">
+// 偽代碼示例 - 防過度灌溉機制
+void loop() {
+  int moisture = readSoilMoisture(); // 讀取土壤濕度
+  
+  if (moisture < THRESHOLD_DRY) {    // 如果太乾
+    startWatering();                 // 開始澆水
+    delay(WATERING_TIME);            // 澆水持續一段時間
+    stopWatering();                  // 停止澆水
+    delay(RE_CHECK_DELAY);           // 【創新點】關鍵延遲！等待水分滲透
+    
+    // 再次檢測土壤濕度
+    moisture = readSoilMoisture();
+    
+    // 若依然乾燥，可能需要進一步處理
+    if (moisture < THRESHOLD_DRY) {
+      // 可以觸發警報或採取其他措施
+      triggerAlert();
+    }
+  }
+  
+  // 檢查其他環境因素
+  checkTemperature();
+  checkLightLevel();
+  
+  // 更新顯示數據
+  updateDisplay();
+}
+            </div>
+            <p>此<span class="highlight">「澆水後延時再檢測」</span>邏輯，模擬了人類"澆一點水，看看情況"的經驗，是一種簡單而有效的自適應性控制方法。</p>
+            
+            <p><strong>遊戲化交互設計：</strong></p>
+            <p>程序內部定義了如 <code>health_score</code> 和 <code>thirst_level</code> 等變量。這些變量是通過對傳感器原始數據進行加權計算得出，並通過 <code>map()</code> 函數將傳感器讀數映射到更直觀的百分比或等級。</p>
+        </section>
+        
+        <section id="innovation">
+            <h2>創新性分析</h2>
+            <p>本作品的創新性體現在以下幾個方面：</p>
+            
+            <h3>1. 三位一體的設計理念</h3>
+            <p>首創<span class="highlight">「監測-執行-遊戲化指引」</span>深度融合的設計理念，專門服務於種植新手：</p>
+            <ul>
+                <li>不僅實現自動化，更注重用戶體驗</li>
+                <li>將複雜數據轉化為直觀的遊戲化指標</li>
+                <li>降低技術門檻，提升使用樂趣</li>
+            </ul>
+            
+            <h3>2. 軟件邏輯創新</h3>
+            <p>通過<span class="highlight">「澆水後延時再檢測」</span>的軟件邏輯，在極簡硬件架構上實現了防過度灌溉的自適應控制機制：</p>
+            <ul>
+                <li>模擬人類澆水經驗</li>
+                <li>防止系統振盪和資源浪費</li>
+                <li>提高系統可靠性和科學性</li>
+            </ul>
+            
+            <h3>3. 低成本教育實踐方案</h3>
+            <p>構建了以<span class="highlight">"傳感器-單片機-繼電器"</span>為核心的低成本硬件模型，突出其教育實踐價值：</p>
+            <ul>
+                <li>所有硬件均為常見開源模塊</li>
+                <li>接線和編程相對簡單，易於複製</li>
+                <li>適合作為高中科創教育案例</li>
+            </ul>
+        </section>
+        
+        <section id="science">
+            <h2>科學性分析</h2>
+            <p>本作品基於嚴謹的科學原理和工程方法：</p>
+            
+            <h3>1. 傳感器物理原理應用</h3>
+            <ul>
+                <li><strong>土壤濕度傳感器：</strong>基於土壤電導率與含水量之間的關係</li>
+                <li><strong>溫濕度傳感器：</strong>基於熱敏電阻和濕敏電容的物理特性</li>
+                <li><strong>光照傳感器：</strong>基於光敏電阻的光電效應</li>
+            </ul>
+            
+            <h3>2. 控制理論應用</h3>
+            <ul>
+                <li><strong>閉環反饋控制：</strong>系統根據傳感器反饋調整執行器狀態</li>
+                <li><strong>閾值控制：</strong>為不同植物設定科學的水分閾值</li>
+                <li><strong>自適應機制：</strong>通過延時再檢測防止過度灌溉</li>
+            </ul>
+            
+            <h3>3. 數據驅動的決策</h3>
+            <p>所有決策均基於實時、客觀的環境數據，而非預設的時間表：</p>
+            <ul>
+                <li>澆水決策基於土壤濕度實時測量值</li>
+                <li>植物健康評估基於多傳感器數據融合</li>
+                <li>系統行為可根據環境變化自適應調整</li>
+            </ul>
+        </section>
+        
+        <section id="practicality">
+            <h2>實用性分析</h2>
+            <p>本作品具有顯著的實用價值和應用前景：</p>
+            
+            <h3>1. 解決真實問題</h3>
+            <ul>
+                <li>幫助沒有種植經驗的人輕鬆養好植物</li>
+                <li>解決忘記澆水、過度澆水等常見問題</li>
+                <li>適用於家庭、教室、辦公室等多種場景</li>
+            </ul>
+            
+            <h3>2. 低成本與易用性</h3>
+            <ul>
+                <li>核心部件總成本可控制在百元級別</li>
+                <li>結構簡單，易於搭建與維護</li>
+                <li>用戶無需專業知識即可使用</li>
+            </ul>
+            
+            <h3>3. 教育與推廣價值</h3>
+            <ul>
+                <li>代碼開源，易於學習和複製</li>
+                <li>適合作為STEM教育案例</li>
+                <li>可擴展性強，便於功能增強</li>
+            </ul>
+            
+            <h3>4. 符合尺寸要求</h3>
+            <p>作品實物尺寸約為：<span class="highlight">長 25cm × 寬 18cm × 高 20cm</span>，遠小於比賽規定的體積上限（長1m × 寬0.7m × 高1.2m），便於展示與放置。</p>
+        </section>
+        
+
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>本作品符合參賽要求：具備創新性、科學性與實用性，且尺寸在規定範圍內</p>
+        </div>
+    </footer>
+</body>
+</html>
